@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css2?family=Limelight&family=Poppins&display=swap');
+
+body {
+    background: #21242c;
+    color: #dfdac1;
+    font-family: 'Poppins', sans-serif;
+}
+
+.container {
+    max-width: 700px;
+    margin: auto;
+    padding: 20px;
+    color: #2c2b27;
+}
+
+.title {
+    text-align: center;
+    font-size: 32px;
+    font-family: 'Limelight', 'cursive';
+    color: #dfdac1;
+}
+
+.btn {
+    width: 30%;
+    font-size: 16px;
+    margin: 10px auto;
+    display: block;
+}
+
+.output {
+    margin-top: 20px;
+    color: #dfdac1;
+}
