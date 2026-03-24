@@ -9,22 +9,33 @@ movieDF = pd.read_csv(Movie_path)
 ratingsDF = pd.read_csv(Rating_path)
 tagsDF = pd.read_csv(tags_path)
 
-#processing
+#Flytta år till egen kolumn
 movieDF["year"] = movieDF["title"].str.extract(r"\((\d{4})\)")
 movieDF["title"] = movieDF["title"].str.replace(r"\((\d{4})\)", "", regex=True)
 
-tags_grouped = tagsDF.groupby("movieId")["tag"].apply(lambda x: " ".join(x.dropna().astype(str))).reset_index()
-
+#Flytta "the" från slutet till början
 movieDF["title"] = movieDF["title"].str.strip()
 
+mask = movieDF["title"].str.lower().str.endswith(", the", na=False)
+
+new_titles ="The " + movieDF.loc[mask, "title"].str[:-6]
+
+movieDF.loc[mask, "title"] = new_titles
+
+#kategorisera filmer efter årtionde
 movieDF["decade"] = movieDF["year"].str[:3] + "0s"
+
+#Slå ihop movies och tags
+tags_grouped = tagsDF.groupby("movieId")["tag"].apply(lambda x: " ".join(x.dropna().astype(str))).reset_index()
 
 movieTags = movieDF.merge(tags_grouped, on="movieId", how="left")
 
+#Fyll i Nan med tom sträng
 movieTags["tag"] = movieTags["tag"].fillna("")
 movieTags["year"] = movieTags["year"].fillna("")
 movieTags["decade"] = movieTags["decade"].fillna("")
 
+#lägg ihop titel, decade, genrar och tags till en text sträng i en egen kolumn 
 movieTags["text"] = (movieTags["title"].astype(str) + " " + 
                      movieTags["decade"].astype(str) + " " +
                      movieTags["genres"].astype(str) + " " +
