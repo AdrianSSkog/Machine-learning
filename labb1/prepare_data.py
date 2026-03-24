@@ -18,7 +18,7 @@ movieDF["title"] = movieDF["title"].str.strip()
 
 mask = movieDF["title"].str.lower().str.endswith(", the", na=False)
 
-new_titles ="The " + movieDF.loc[mask, "title"].str[:-6]
+new_titles ="The " + movieDF.loc[mask, "title"].str[:-5]
 
 movieDF.loc[mask, "title"] = new_titles
 

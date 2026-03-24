@@ -2,6 +2,7 @@ import dash
 from dash import html, dcc
 from dash.dependencies import Input, Output, State
 from recommender import load_data, twostage_RetrievalRanking
+from tmdb import get_movie_poster
 
 data = {}
 data["movieDF"], data["ratingsDF"], data["movieTags"], data["tfidf_matrix"] = load_data()
@@ -54,9 +55,20 @@ def update_recommendations(n_clicks, movie_title):
                                          data["ratingsDF"],
                                          data["movieTags"])
 
-        return html.Ul([
-            html.Li(movie) for movie in recs
-        ])
+        cards = []
+        for movie in recs:
+            poster_url = get_movie_poster(movie)
+
+            card = html.Div([
+                html.Img(
+                    src = poster_url,
+                    style = {"width" : "100%", "borderRadius" : "10px"}
+                ),
+                html.P(movie, style={"textAlign" : "center"})
+            ], className="movie-card")
+            cards.append(card)
+        return html.Div(cards, className="movie-grid")
+        
     except Exception as e:
         return f"Error: {str(e)}"
 

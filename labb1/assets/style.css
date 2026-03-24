@@ -31,3 +31,24 @@ body {
     margin-top: 20px;
     color: #dfdac1;
 }
+.movie-grid {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    padding: 10px;
+}
+
+.movie-card {
+    width: 150px;
+    text-align: center;
+    transition: transform 0.2s ease;
+}
+
+.movie-card:hover {
+    transform: scale(1.05);
+}
+
+.movie-card img {
+    width: 100%;
+    border-radius: 10px;
+}
