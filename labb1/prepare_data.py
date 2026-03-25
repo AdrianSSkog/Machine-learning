@@ -16,11 +16,13 @@ movieDF["title"] = movieDF["title"].str.replace(r"\((\d{4})\)", "", regex=True)
 #Flytta "the" från slutet till början
 movieDF["title"] = movieDF["title"].str.strip()
 
-mask = movieDF["title"].str.lower().str.endswith(", the", na=False)
+mask1 = movieDF["title"].str.lower().str.endswith(", the", na=False)
+new_titlesA ="The " + movieDF.loc[mask1, "title"].str[:-5]
+movieDF.loc[mask1, "title"] = new_titlesA
 
-new_titles ="The " + movieDF.loc[mask, "title"].str[:-5]
-
-movieDF.loc[mask, "title"] = new_titles
+mask2 = movieDF["title"].str.contains(r", The \(", na=False)
+new_titlesB = "The " + movieDF.loc[mask2, "title"].str.replace(", The", "", regex=True)
+movieDF.loc[mask2, "title"] = new_titlesB
 
 #kategorisera filmer efter årtionde
 movieDF["decade"] = movieDF["year"].str[:3] + "0s"
