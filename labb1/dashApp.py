@@ -1,7 +1,7 @@
 import dash
 from dash import html, dcc
 from dash.dependencies import Input, Output, State
-from recommender import load_data, twostage_RetrievalRanking
+from recommender import load_data, hybrid_recommender
 from tmdb import get_movie_poster
 
 data = {}
@@ -49,15 +49,19 @@ def update_recommendations(n_clicks, movie_title):
     if not movie_title:
         return "Skriv en filmtitel."
     try:
-        recs = twostage_RetrievalRanking(movie_title, 
+        recs = hybrid_recommender(movie_title, 
                                          data["tfidf_matrix"],
                                          data["movieDF"],
                                          data["ratingsDF"],
                                          data["movieTags"])
 
         cards = []
+        df = data["movieDF"]
         for movie in recs:
-            poster_url = get_movie_poster(movie)
+            row = df["title"] == movie
+            clean_title = df.loc[row, "clean_title"].iloc[0]
+            year = df.loc[row, "year"].iloc[0]
+            poster_url = get_movie_poster(clean_title, year)
 
             card = html.Div([
                 html.Img(

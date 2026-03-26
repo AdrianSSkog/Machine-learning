@@ -5,9 +5,9 @@ Rating_path = r"C:\Users\adria\Desktop\Python\Machine-learning\labb1\ml-latest\r
 tags_path = r"C:\Users\adria\Desktop\Python\Machine-learning\labb1\ml-latest\tags.csv"
 
 #load datasets
-movieDF = pd.read_csv(Movie_path)
+movieDF = pd.read_csv(Movie_path, engine="python")
 ratingsDF = pd.read_csv(Rating_path)
-tagsDF = pd.read_csv(tags_path)
+tagsDF = pd.read_csv(tags_path, engine="python")
 
 #Flytta år till egen kolumn
 movieDF["year"] = movieDF["title"].str.extract(r"\((\d{4})\)")
@@ -23,6 +23,13 @@ movieDF.loc[mask1, "title"] = new_titlesA
 mask2 = movieDF["title"].str.contains(r", The \(", na=False)
 new_titlesB = "The " + movieDF.loc[mask2, "title"].str.replace(", The", "", regex=True)
 movieDF.loc[mask2, "title"] = new_titlesB
+
+movieDF["clean_title"] = movieDF["title"]
+
+#inkludera årtal på filmtitlar som förekommer upprepade gånger
+mask3 = movieDF["title"].duplicated()
+TitlesYear = movieDF.loc[mask3, "title"] + " (" + movieDF.loc[mask3, "year"].fillna("").astype(str) + ")"
+movieDF.loc[mask3, "title"] = TitlesYear
 
 #kategorisera filmer efter årtionde
 movieDF["decade"] = movieDF["year"].str[:3] + "0s"
@@ -45,7 +52,9 @@ movieTags["text"] = (movieTags["title"].astype(str) + " " +
 
 movieTags["text"] = (movieTags["text"].str.lower().str.replace("|", " ", regex=False))
 
+
 #save
 movieTags.to_pickle("movieTags.pkl")
 movieDF.to_pickle("movieDF.pkl")
 ratingsDF.to_pickle("ratingsDF.pkl")
+

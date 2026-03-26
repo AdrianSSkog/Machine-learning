@@ -33,7 +33,7 @@ def get_movie_index(movie_title, movieDF):
     
 
 def get_movie_titles(movie_indices, movieDF):
-    return movieDF.iloc[movie_indices]["title"].tolist()
+    return movieDF.iloc[movie_indices]["clean_title"].tolist()
 
 def rertieval(movie_title, tfidf_matrix, movieDF, top_n=200):
     movie_indx = get_movie_index(movie_title, movieDF)
@@ -103,9 +103,9 @@ def ranking(candidateIndex, inputMovieTitle, movieDF, ratingsDF, movieTags):
 
 #Combined hybrid filter
 
-def twostage_RetrievalRanking(movieTitle, tfidf_matrix, movieDF, ratingsDF, movieTags):
+def hybrid_recommender(movieTitle, tfidf_matrix, movieDF, ratingsDF, movieTags):
 
-    candidatesIndx = rertieval(movieTitle, tfidf_matrix, movieDF, top_n=200)[1]
+    candidatesIndx = rertieval(movieTitle, tfidf_matrix, movieDF, top_n=80)[1]
 
     return ranking(candidatesIndx, movieTitle, movieDF, ratingsDF, movieTags).tolist()
 

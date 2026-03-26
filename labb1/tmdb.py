@@ -12,15 +12,17 @@ Image_URL = f"https://image.tmdb.org/t/p/{size}"
 
 poster_cache = {}
 
-def get_movie_poster(movie_title):
+def get_movie_poster(movie_title, year):
     if movie_title in poster_cache:
         return poster_cache[movie_title]
     
     url = f"{Base_URL}/search/movie"
     params = {
         "api_key" : API_Key,
-        "query" : movie_title
+        "query" : movie_title,
     }
+    if year:
+        params["year"] = year
 
     response = requests.get(url, params=params)
 
