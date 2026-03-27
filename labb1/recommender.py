@@ -5,9 +5,9 @@ from sklearn.metrics.pairwise import cosine_similarity
 from scipy.sparse import csr_matrix
 
 def load_data():
-    movieDF = pd.read_pickle("movieDF.pkl")
-    ratingsDF = pd.read_pickle("ratingsDF.pkl")
-    movieTags = pd.read_pickle("movieTags.pkl")
+    movieDF = pd.read_pickle(r"labb1\movieDF.pkl")
+    ratingsDF = pd.read_pickle(r"labb1\ratingsDF.pkl")
+    movieTags = pd.read_pickle(r"labb1\movieTags.pkl")
     tfidf_matrix = vectorize_text(movieTags["text"])
 
     return movieDF, ratingsDF, movieTags, tfidf_matrix

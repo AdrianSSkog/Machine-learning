@@ -27,7 +27,7 @@ movieDF.loc[mask2, "title"] = new_titlesB
 movieDF["clean_title"] = movieDF["title"]
 
 #inkludera årtal på filmtitlar som förekommer upprepade gånger
-mask3 = movieDF["title"].duplicated()
+mask3 = movieDF["title"].duplicated(keep=False)
 TitlesYear = movieDF.loc[mask3, "title"] + " (" + movieDF.loc[mask3, "year"].fillna("").astype(str) + ")"
 movieDF.loc[mask3, "title"] = TitlesYear
 
@@ -52,9 +52,10 @@ movieTags["text"] = (movieTags["title"].astype(str) + " " +
 
 movieTags["text"] = (movieTags["text"].str.lower().str.replace("|", " ", regex=False))
 
+ratingsDF.drop("timestamp", axis=1, inplace=True)
 
 #save
-movieTags.to_pickle("movieTags.pkl")
-movieDF.to_pickle("movieDF.pkl")
-ratingsDF.to_pickle("ratingsDF.pkl")
+movieTags.to_pickle(r"labb1\movieTags.pkl")
+movieDF.to_pickle(r"labb1\movieDF.pkl")
+ratingsDF.to_pickle(r"labb1\ratingsDF.pkl")
 
