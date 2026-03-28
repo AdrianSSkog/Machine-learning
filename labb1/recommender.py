@@ -105,7 +105,7 @@ def ranking(candidateIndex, inputMovieTitle, movieDF, ratingsDF, movieTags):
 
 def hybrid_recommender(movieTitle, tfidf_matrix, movieDF, ratingsDF, movieTags):
 
-    candidatesIndx = rertieval(movieTitle, tfidf_matrix, movieDF, top_n=80)[1]
+    candidatesIndx = rertieval(movieTitle, tfidf_matrix, movieDF, top_n=200)[1]
 
     return ranking(candidatesIndx, movieTitle, movieDF, ratingsDF, movieTags).tolist()
 

@@ -52,8 +52,6 @@ movieTags["text"] = (movieTags["title"].astype(str) + " " +
 
 movieTags["text"] = (movieTags["text"].str.lower().str.replace("|", " ", regex=False))
 
-ratingsDF.drop("timestamp", axis=1, inplace=True)
-
 #save
 movieTags.to_pickle(r"labb1\movieTags.pkl")
 movieDF.to_pickle(r"labb1\movieDF.pkl")
