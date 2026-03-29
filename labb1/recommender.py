@@ -4,10 +4,10 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 from scipy.sparse import csr_matrix
 
-def load_data():
-    movieDF = pd.read_pickle(r"labb1\movieDF.pkl")
-    ratingsDF = pd.read_pickle(r"labb1\ratingsDF.pkl")
-    movieTags = pd.read_pickle(r"labb1\movieTags.pkl")
+def load_data(moviePath=r"labb1\movieDF.pkl", ratingsPath=r"labb1\ratingsDF.pkl", movieTagsPath=r"labb1\movieTags.pkl"):
+    movieDF = pd.read_pickle(moviePath)
+    ratingsDF = pd.read_pickle(ratingsPath)
+    movieTags = pd.read_pickle(movieTagsPath)
     tfidf_matrix = vectorize_text(movieTags["text"])
 
     return movieDF, ratingsDF, movieTags, tfidf_matrix
