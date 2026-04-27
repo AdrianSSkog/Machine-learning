@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 import json
 import torch.nn.functional as F
 
-imgNetPath = r"C:\Users\adria\Desktop\Python\Machine-learning\data\imagenet_class_index.json"
+imgNetPath = r"C:\Users\adria\Desktop\Python\Machine-learning\labb2\data\imagenet_class_index.json"
 image_paths = [
     r"C:\Users\adria\Desktop\Python\Machine-learning\labb2\data\Yorkshire-Terrier.jpg",
     r"C:\Users\adria\Desktop\Python\Machine-learning\labb2\data\great+white+shark2.jpg",
@@ -170,7 +170,7 @@ def prediction_summary(class_index, model, weights, test_images):
         print(f"Class label: {img['label']}")
         print(f"type: {img['type']}")
 
-        image, input_tensor = image_preprocess(img["path"], weights)
+        input_tensor = image_preprocess(img["path"], weights)[1]
         output_tensor = get_pred(input_tensor, model)
         top5_preds = top_k_predictions(output_tensor, class_index)
 
@@ -181,12 +181,13 @@ def prediction_summary(class_index, model, weights, test_images):
         for pred in top5_preds:
             print(f"{pred[0]} : {pred[1]}")
 
-def plot_test_images(test_images, weights):
+def plot_test_images(test_images):
     n = len(test_images)
     fig, ax = plt.subplots(2, int(n/2), figsize=(8, 4))
     for i in range(n):
         img_info = test_images[i]
-        img = image_preprocess(img_info["path"], weights)[0]
+        img_bytes = read_file(img_info["path"])
+        img = decode_image(img_bytes)
         pil_img = to_pil_image(img)
         if img_info["type"] == "positive":
             r = 0
